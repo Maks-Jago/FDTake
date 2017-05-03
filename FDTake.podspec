@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name         = "FDTake"
+  s.name         = "MKFDTake"
   s.version      = "1.0.0"
   s.summary      = "Easily take a photo or video or choose from library"
   s.description  = <<-DESC
