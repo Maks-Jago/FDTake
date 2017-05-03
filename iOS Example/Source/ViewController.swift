@@ -79,9 +79,21 @@ class ViewController: UIViewController {
     }
     
     @IBAction func presentFromButton(_ sender: UIButton) {
-        resetFDTakeController()
-        fdTakeController.presentingView = sender
-        fdTakeController.present()
+//        resetFDTakeController()
+//        fdTakeController.presentingView = sender
+//        fdTakeController.present()
+        
+        FDTakeController.makePhotoWithCallback { (image, options) in
+            let alert = UIAlertController(title: "Got photo", message: "User selected photo", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            // http://stackoverflow.com/a/34487871/300224
+            let alertWindow = UIWindow(frame: UIScreen.main.bounds)
+            alertWindow.rootViewController = UIViewController()
+            alertWindow.windowLevel = UIWindowLevelAlert + 1;
+            alertWindow.makeKeyAndVisible()
+            alertWindow.rootViewController?.present(alert, animated: true, completion: nil)
+        }
     }
     
     @IBAction func presentFromWindow() {

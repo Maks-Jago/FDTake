@@ -65,6 +65,14 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
         fdTake.present()
     }
 
+    open class func makePhotoWithCallback(getPhotoWithCallback callback: @escaping (_ photo: UIImage, _ info: [AnyHashable: Any]) -> Void) {
+        let fdTake = FDTakeController()
+        fdTake.allowsVideo = false
+        fdTake.didGetPhoto = callback
+        fdTake.allowsEditing = true
+        fdTake.makePhoto()
+    }
+    
     /// Convenience method for getting a video
     open class func getVideoWithCallback(getVideoWithCallback callback: @escaping (_ video: URL, _ info: [AnyHashable: Any]) -> Void) {
         let fdTake = FDTakeController()
@@ -318,6 +326,15 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
     open func dismiss() {
         alertController?.dismiss(animated: true, completion: nil)
         imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
+    fileprivate func makePhoto() {
+        self.imagePicker.sourceType = .camera
+        self.imagePicker.allowsEditing = self.allowsEditing
+        self.imagePicker.mediaTypes = [String(kUTTypeImage)]
+        
+        let topVC = self.topViewController(self.presentingViewController)
+        topVC.present(self.imagePicker, animated: true, completion: { _ in })
     }
 }
 
